@@ -33,7 +33,7 @@ rand_seed      # initialize and seed a new pseudo-random number generator.
 rand_uint32    # returns a pseudo-random 32-bit value.
 rand_uint64    # returns a pseudo-random 64-bit value.
 rand_int63     # returns a non-negative pseudo-random 63-bit integer.
-rand_int32     # returns a non-negative pseudo-random 31-bit integer.
+rand_int31     # returns a non-negative pseudo-random 31-bit integer.
 rand_double    # returns a pseudo-random double in [0.0,1.0).
 rand_fill      # writes pseudo-random bytes to data.
 
