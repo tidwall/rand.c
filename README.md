@@ -11,10 +11,10 @@ A [PCG](https://www.pcg-random.org) based pseudo-random number generator for C.
 #include "rand.h"
 
 int main() {
-    // Initialize and seead a new pseudo-random number generator.
+    // Initialize and seed a new pseudo-random number generator.
     struct rand rand = rand_seed(2468);
 
-    // create a random latitude and longitude point
+    // Here we'll generate a random latitude and longitude point
     double lat = rand_double(&rand) * 180.0 - 90.0;
     double lon = rand_double(&rand) * 360.0 - 180.0;
 
