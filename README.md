@@ -6,8 +6,6 @@ A [PCG](https://www.pcg-random.org) based pseudo-random number generator for C.
 
 ```c
 #include <stdio.h>
-#include <string.h>
-#include <time.h>
 #include "rand.h"
 
 int main() {
