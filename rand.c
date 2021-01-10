@@ -1,3 +1,7 @@
+// Copyright 2021 Joshua J Baker. All rights reserved.
+// Use of this source code is governed by an MIT-style
+// license that can be found in the LICENSE file.
+
 #include "rand.h"
 
 // Derived from pcg32_random_r (https://www.pcg-random.org/download.html)
@@ -101,7 +105,7 @@ static void test_all() {
         }
     }
     {
-        // Initialize and seed a new pseudo-random number generator.
+    // Initialize and seed a new pseudo-random number generator.
     struct rand rand = rand_seed(2468);
 
     // create a random latitude and longitude point
