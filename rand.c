@@ -2,6 +2,7 @@
 // Use of this source code is governed by an MIT-style
 // license that can be found in the LICENSE file.
 
+#include <stdio.h>
 #include "rand.h"
 
 // Derived from pcg32_random_r (https://www.pcg-random.org/download.html)
@@ -68,6 +69,21 @@ void rand_fill(struct rand *rand, void *data, size_t nbytes) {
     }
 }
 
+// rand_crypto_fill is just like rand_fill except it returns crypto random
+// bytes. Returns false if the system does not support the /dev/urandom file.
+bool rand_crypto_fill(void *data, size_t len) {
+    FILE *f = fopen("/dev/urandom", "r");
+    if (!f) {
+        return false;
+    }
+    size_t read = fread(data, len, 1, f);
+    int close = fclose(f);
+    if (read != 1) {
+        return false;
+    }
+    return close == 0;
+}
+
 //==============================================================================
 // TESTS
 // $ cc -DRAND_TEST rand.c && ./a.out              # run tests
@@ -75,9 +91,10 @@ void rand_fill(struct rand *rand, void *data, size_t nbytes) {
 #ifdef RAND_TEST
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <inttypes.h>
 
-static void test_all() {
+static void test_values() {
     uint32_t values[] =  {
         2424192242, 1853756841, 3339140693, 332856550, 985935363, 265305501, 
         1342587035, 3378928879, 2116085098, 1102966071, 2581679090, 2585186576, 
@@ -102,9 +119,12 @@ static void test_all() {
         uint32_t x = rand_uint32(&rand);
         if (x != values[i]) {
             fprintf(stderr, "fail %" PRIu32 " != %" PRIu32 "\n", x, values[i]);
+            exit(1);
         }
     }
-    {
+}
+
+static void test_doubles() {
     // Initialize and seed a new pseudo-random number generator.
     struct rand rand = rand_seed(2468);
 
@@ -113,12 +133,23 @@ static void test_all() {
     double lon = rand_double(&rand) * 360.0 - 180.0;
 
     printf("lat=%.8f, lon=%.8f\n", lat, lon);
+}
+
+static void test_crypto() {
+    // create a crypto random value
+    uint64_t x = 0;
+    if (!rand_crypto_fill(&x, sizeof(x))) {
+        fprintf(stderr, "rand_crypto_fill failed\n");
+        exit(1);
     }
+    printf("x=%" PRIu64 "\n", x);
 }
 
 int main() {
     printf("Running rand.c tests...\n");
-    test_all();
+    test_values();
+    test_doubles();
+    test_crypto();
     printf("PASSED\n");
 }
 

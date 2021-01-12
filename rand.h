@@ -7,6 +7,7 @@
 
 #include <stddef.h>
 #include <stdint.h>
+#include <stdbool.h>
 
 struct rand {
     uint64_t state;
@@ -20,5 +21,7 @@ int32_t rand_int31(struct rand *rand);
 double rand_double(struct rand *rand);
 float rand_float(struct rand *rand);
 void rand_fill(struct rand *rand, void *data, size_t len);
+
+bool rand_crypto_fill(void *data, size_t len);
 
 #endif
