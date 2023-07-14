@@ -19,7 +19,6 @@ uint64_t rand_uint64(struct rand *rand);
 int64_t rand_int63(struct rand *rand);
 int32_t rand_int31(struct rand *rand);
 double rand_double(struct rand *rand);
-float rand_float(struct rand *rand);
 void rand_fill(struct rand *rand, void *data, size_t len);
 
 bool rand_crypto_fill(void *data, size_t len);
